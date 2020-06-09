@@ -39,58 +39,6 @@ L1:	call inputTheText		;input the plain text
 	call crlf
 	call crlf
 	jmp L1
-next:
-	mov edx, OFFSET lPrompt
-	call WriteString
-	INVOKE ExitProcess, 0
-	
-
-main ENDP
-
-inputTheText PROC
-	pushad
-	mov edx, OFFSET plainPrompt ;  display a prompt
-	call WriteString
-
-	mov ecx, BUFMAX	;	maximum char count
-	mov edx, offset buffer	;point to the buffer
-	call ReadString			;input the string
-	mov bufSize, eax		;save the length
-	popad
-	ret
-inputTheText ENDP
-
-inputTheKey PROC
-	pushad
-	mov edx, OFFSET keyPrompt ;  display a prompt
-	call WriteString
-
-	mov ecx, keyBUFMAX	;	maximum char count
-	mov edx, offset KeyBuffer	;point to the KEYbuffer
-	call ReadString			;input the string
-	mov KeyBufSize, eax		;save the length
-	popad
-	ret
-inputTheKey ENDP
-
-translateBuffer PROC
-	pushad
-	mov ecx, bufSize		;loop counter
-	mov esi, 0				;index 0 in buffer
-	mov edi, 0				;edi :keybuffer index
-L1: 
-	mov al,	keyBuffer[edi]		;al : keybuffer[edi]
-	xor buffer[esi], al	;translate a byte
-	inc esi		;point to next byte
-	inc edi
-	cmp edi, keyBufSize				;if(edi가 keyBuffer 사이즈를 초과하면)
-	jb next
-	mov edi,0						;edi를 0으로 초기화
-next:	
-	loop L1
-	popad
-	ret
-translateBuffer ENDP
 
 displayTheString PROC
 	
